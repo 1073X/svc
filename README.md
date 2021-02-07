@@ -1,1 +1,1 @@
-cpp project template
+svc
