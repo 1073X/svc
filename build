@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 
-PROJECT_NAME=project
+PROJECT_NAME=svc
 BUILD_VERBOSE=OFF
 source $TOOLCHAIN_PATH/build.in
 
 if [[ $1 == "command" ]]; then
-    echo "project specific command"
+    echo "svc specific command"
 
 else
      echo "ERROR: unknown command"
