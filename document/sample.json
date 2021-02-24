@@ -1,0 +1,22 @@
+{
+    "com": {
+        "meta": {
+            "category": "service",
+            "type": "sample",
+            "name": "test"
+        },
+        "log": {
+            "type": "file",
+            "path": ".",
+            "severity": "DEBUG",
+            "capacity": 4096
+        },
+        "core": 0,
+        "time_offset": 28800000,
+        "interval": 500
+    },
+    "spec": {
+        "core": 2,
+        "interval": 1000
+    }
+}

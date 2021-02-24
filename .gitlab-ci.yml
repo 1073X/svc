@@ -18,6 +18,11 @@ release:
     except:
         - master
 
+sample:
+    stage: release 
+    script:
+        - ./build sample
+
 delivery:
     stage: deliver
     variables:
@@ -31,18 +36,20 @@ delivery:
         - ./build debug
         - ./build release
 
-          #- mkdir -p $INC_PATH
-          #- rm -fr $INC_PATH/com
-          #- cp -frv ./include/com $INC_PATH
+        - mkdir -p $INC_PATH
+        - rm -fr $INC_PATH/svc
+        - cp -frv ./include/svc $INC_PATH
 
-          #- mkdir -p $DBG_PATH
-          #- cp -fv debug/libcom.a $DBG_PATH
+        - mkdir -p $DBG_PATH
+        - cp -fv debug/libsvc.a $DBG_PATH
+        - cp -fv debug/libmiu.so $DBG_PATH
 
-          #- mkdir -p $REL_PATH
-          #- cp -fv release/libcom.a $REL_PATH
+        - mkdir -p $REL_PATH
+        - cp -fv release/libsvc.a $REL_PATH
+        - cp -fv release/libmiu.so $REL_PATH
 
-          #- mkdir -p $UT_PATH
-          #- cp -fv release/ut_com $UT_PATH
+        - mkdir -p $UT_PATH
+        - cp -fv release/ut_svc $UT_PATH
 
     only:
         - master
