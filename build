@@ -4,8 +4,28 @@ PROJECT_NAME=svc
 BUILD_VERBOSE=OFF
 source $TOOLCHAIN_PATH/build.in
 
-if [[ $1 == "command" ]]; then
-    echo "svc specific command"
+if [[ $1 == "sample" ]]; then
+    build release
+    mkdir -p sandbox && cd sandbox
+
+    _log_file=test_$(date +%Y%m%d).log
+    rm -fv $_log_file
+
+    ../release/sample ../document/sample.json &
+    _pid=$!
+
+    _cols=lwp,psr,pcpu,pmem,vsz,sz,rss,stime,time,stat,pri,wchan
+    ps H -p $_pid -o $_cols | grep -v "LWP"
+    echo ' '
+
+    sleep 5 
+    kill -SIGINT $_pid
+    sleep 5 
+
+    echo 'LOG FILE:' $_log_file 
+    head $_log_file 
+    echo '...'
+    tail $_log_file 
 
 else
      echo "ERROR: unknown command"
