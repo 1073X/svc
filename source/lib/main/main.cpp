@@ -1,6 +1,7 @@
 
 #include <cfg/cmd_source.hpp>
 #include <cfg/json_source.hpp>
+#include <filesystem>
 #include <fstream>
 #include <iostream>    // std::err
 #include <log/log.hpp>
@@ -22,10 +23,14 @@ static auto error(std::string_view text) {
 }
 
 static auto warmup(std::string_view name, std::string_view file) {
-    nlohmann::json json;
-    std::ifstream { file.data() } >> json;
-    cfg::json_source jsonsrc { name, json };
-    g_svc->warmup({ &jsonsrc });
+    if (std::filesystem::exists(file)) {
+        nlohmann::json json;
+        std::ifstream { file.data() } >> json;
+        cfg::json_source jsonsrc { name, json };
+        g_svc->warmup({ &jsonsrc });
+    } else {
+        FATAL_ERROR("Missing config, file[", file, "] doesn't exist.");
+    }
 }
 
 int32_t main(int32_t argc, const char* argv[]) try {
