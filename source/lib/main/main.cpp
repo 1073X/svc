@@ -32,6 +32,14 @@ int32_t main(int32_t argc, const char* argv[]) try {
     cfg::settings cmdset { &cmdsrc };
     if (cmdset.optional<bool>("version", false)) {
         std::cout << g_svc->version() << std::endl;
+
+    } else if (cmdset.optional<bool>("usage", false)) {
+        std::cout << g_svc->version() << std::endl;
+        std::cout << g_svc->build_info() << std::endl;
+        std::cout << "\nUsage: " << cmdset.name() << " <path/to/json/config/file>" << std::endl;
+        std::cout << "\t--version: show version" << std::endl;
+        std::cout << "\t--usage: show this usage" << std::endl;
+
     } else {
         {
             // release settings after initialization
