@@ -50,20 +50,19 @@ TEST_F(ut_furnace, log_file) {
     std::filesystem::remove(log_file);
 
     nlohmann::json json;
-    json["com"]["meta"]["category"] = "cate";
-    json["com"]["meta"]["type"]     = "type";
-    json["com"]["meta"]["name"]     = "ut_furnace";
-    json["com"]["time_offset"]      = 4 * 3600 * 1000;
-    json["com"]["log"]["type"]      = "file";
-    json["com"]["log"]["path"]      = ".";
-    json["com"]["log"]["severity"]  = "DEBUG";
-    json["com"]["log"]["capacity"]  = 4096;
-    json["spec"]                    = {};
+    json["meta"]["category"] = "cate";
+    json["meta"]["type"]     = "type";
+    json["meta"]["name"]     = "ut_furnace";
+    json["time_offset"]      = 4 * 3600 * 1000;
+    json["log"]["type"]      = "file";
+    json["log"]["path"]      = ".";
+    json["log"]["severity"]  = "DEBUG";
+    json["log"]["capacity"]  = 4096;
     miu::cfg::json_source src { "ut_furnace", json };
     miu::cfg::settings settings { &src };
 
     EXPECT_CALL(furnace, do_ignite(testing::_));
-    furnace.warmup(settings);
+    furnace.warmup(settings, {});
 
     // should reset meta info
     EXPECT_STREQ("cate.type.ut_furnace", miu::meta::info());
@@ -82,21 +81,21 @@ TEST_F(ut_furnace, log_file) {
 
 TEST_F(ut_furnace, log_term) {
     nlohmann::json json;
-    json["com"]["meta"]["category"] = "cate";
-    json["com"]["meta"]["type"]     = "type";
-    json["com"]["meta"]["name"]     = "ut_furnace";
-    // json["com"]["log"]["type"]      = "term";
-    json["com"]["log"]["severity"] = "DEBUG";
-    json["com"]["core"]            = 4;
-    json["com"]["interval"]        = 200;
-    json["spec"]                   = {};
-    miu::cfg::json_source src { "ut_furnace", json };
+    json["meta"]["category"] = "cate";
+    json["meta"]["type"]     = "type";
+    json["meta"]["name"]     = "ut_furnace";
+    json["log"]["type"]      = "term";
+    json["log"]["severity"]  = "DEBUG";
+    json["core"]             = 4;
+    json["interval"]         = 200;
+    miu::cfg::json_source src { "json_file", json };
     miu::cfg::settings settings { &src };
 
     EXPECT_CALL(furnace, do_ignite(testing::_));
     EXPECT_CALL(furnace, quench());
 
-    furnace.warmup(settings);
+    furnace.warmup(settings, {});
+    EXPECT_STREQ("cate.type.ut_furnace", miu::meta::info());
 
     std::thread thrd([&]() {
         furnace.forge();
@@ -111,16 +110,15 @@ TEST_F(ut_furnace, log_term) {
 
 TEST_F(ut_furnace, log_sys) {
     nlohmann::json json;
-    json["com"]["meta"]["category"] = "cate";
-    json["com"]["meta"]["type"]     = "type";
-    json["com"]["meta"]["name"]     = "ut_furnace";
-    json["com"]["log"]["type"]      = "syslog";
-    json["spec"]                    = {};
+    json["meta"]["category"] = "cate";
+    json["meta"]["type"]     = "type";
+    json["meta"]["name"]     = "ut_furnace";
+    json["log"]["type"]      = "syslog";
     miu::cfg::json_source src { "ut_furnace", json };
     miu::cfg::settings settings { &src };
 
     EXPECT_CALL(furnace, do_ignite(testing::_));
-    furnace.warmup(settings);
+    furnace.warmup(settings, {});
 
     EXPECT_CALL(furnace, quench());
     furnace.finish();
@@ -128,12 +126,12 @@ TEST_F(ut_furnace, log_sys) {
 
 TEST_F(ut_furnace, invalid_log_type) {
     nlohmann::json json;
-    json["com"]["meta"]["category"] = "cate";
-    json["com"]["meta"]["type"]     = "type";
-    json["com"]["meta"]["name"]     = "ut_furnace";
-    json["com"]["log"]["type"]      = "unknown";
+    json["meta"]["category"] = "cate";
+    json["meta"]["type"]     = "type";
+    json["meta"]["name"]     = "ut_furnace";
+    json["log"]["type"]      = "unknown";
     miu::cfg::json_source src { "ut_furnace", json };
     miu::cfg::settings settings { &src };
 
-    EXPECT_ANY_THROW(furnace.warmup(settings));
+    EXPECT_ANY_THROW(furnace.warmup(settings, {}));
 }

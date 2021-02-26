@@ -43,9 +43,7 @@ static auto init_log(cfg::settings const& settings) {
     }
 }
 
-void furnace::warmup(cfg::settings const& settings) {
-    auto com = settings.required<cfg::settings>("com");
-
+void furnace::warmup(cfg::settings const& com, cfg::settings const& spec) {
     // 1. meta
     auto meta = com.required<cfg::settings>("meta");
     meta::set_category(meta.required<std::string>("category"));
@@ -75,7 +73,7 @@ void furnace::warmup(cfg::settings const& settings) {
     log::debug(+"time OFF", time::offset::get());
 
     // 5. specific
-    ignite(settings.required<cfg::settings>("spec"));
+    ignite(spec);
 
     // 6. reset aspects
     asp::read({ +"_COM_", +"job", +"_main_", +"core" }, []() { return job::get_core(); });

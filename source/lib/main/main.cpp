@@ -7,6 +7,7 @@
 #include <log/log.hpp>
 #include <memory>    // std::unique_ptr
 
+#include "source/lib/svc/settings.hpp"
 #include "svc/svc.hpp"
 
 using namespace miu;
@@ -22,17 +23,6 @@ static auto error(std::string_view text) {
     return -1;
 }
 
-static auto warmup(std::string_view name, std::string_view file) {
-    if (std::filesystem::exists(file)) {
-        nlohmann::json json;
-        std::ifstream { file.data() } >> json;
-        cfg::json_source jsonsrc { name, json };
-        g_svc->warmup({ &jsonsrc });
-    } else {
-        FATAL_ERROR("Missing config, file[", file, "] doesn't exist.");
-    }
-}
-
 int32_t main(int32_t argc, const char* argv[]) try {
     if (!g_svc) {
         return error("fake furnace");
@@ -43,7 +33,14 @@ int32_t main(int32_t argc, const char* argv[]) try {
     if (cmdset.optional<bool>("version", false)) {
         std::cout << g_svc->version() << std::endl;
     } else {
-        warmup(cmdset.name(), cmdset.required<std::string>(0));
+        {
+            // release settings after initialization
+            auto bin_name  = cmdset.name();
+            auto json_file = cmdset.required<std::string>(0);
+            svc::settings settings { bin_name, json_file };
+            g_svc->warmup(settings.com(), settings.spec());
+        }
+
         g_svc->forge();
     }
 
