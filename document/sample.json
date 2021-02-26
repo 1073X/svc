@@ -3,7 +3,7 @@
         "meta": {
             "category": "service",
             "type": "sample",
-            "name": "test"
+            "name": "sample"
         },
         "log": {
             "type": "file",

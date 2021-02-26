@@ -11,7 +11,7 @@ class furnace {
 
     virtual std::string_view version() const = 0;
 
-    void warmup(cfg::settings const&);
+    void warmup(cfg::settings const& com, cfg::settings const& spec);
     void forge();
     void finish();
 

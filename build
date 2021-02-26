@@ -8,7 +8,7 @@ if [[ $1 == "sample" ]]; then
     build release
     mkdir -p sandbox && cd sandbox
 
-    _log_file=test_$(date +%Y%m%d).log
+    _log_file=sample_$(date +%Y%m%d).log
     rm -fv $_log_file
 
     ../release/sample ../document/sample.json &
