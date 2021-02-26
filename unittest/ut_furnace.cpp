@@ -31,11 +31,13 @@ struct ut_furnace : public testing::Test {
         MOCK_METHOD(void, quench, (), (override));
 
         std::string_view version() const override { return "abc"; }
+        std::string_view build_info() const override { return "xyz"; }
     } furnace;
 };
 
 TEST_F(ut_furnace, version) {
     EXPECT_EQ("abc", furnace.version());
+    EXPECT_EQ("xyz", furnace.build_info());
 }
 
 TEST_F(ut_furnace, log_file) {

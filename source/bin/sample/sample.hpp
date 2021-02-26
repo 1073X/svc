@@ -16,6 +16,7 @@ class furnace : public svc::furnace {
 
   private:    // impl furnace
     std::string_view version() const override { return svc::version(); }
+    std::string_view build_info() const override { return svc::build_info(); }
 
     void ignite(cfg::settings const& settings) override {
         auto core     = settings.required<int32_t>("core");

@@ -9,7 +9,8 @@ class furnace {
   public:
     virtual ~furnace() {}
 
-    virtual std::string_view version() const = 0;
+    virtual std::string_view version() const    = 0;
+    virtual std::string_view build_info() const = 0;
 
     void warmup(cfg::settings const& com, cfg::settings const& spec);
     void forge();
