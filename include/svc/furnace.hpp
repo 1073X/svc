@@ -7,7 +7,7 @@ namespace miu::svc {
 
 class furnace {
   public:
-    virtual ~furnace() {}
+    virtual ~furnace() = default;
 
     virtual std::string_view version() const    = 0;
     virtual std::string_view build_info() const = 0;

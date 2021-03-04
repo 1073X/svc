@@ -1,11 +1,11 @@
 #include <gmock/gmock.h>
 
 #include <cfg/json_source.hpp>
+#include <com/json.hpp>
 #include <com/thread_id.hpp>
 #include <csignal>
 #include <filesystem>
 #include <log/log.hpp>
-#include <nlohmann/json.hpp>
 #include <shm/tempfs.hpp>
 #include <thread>
 #include <time/offset.hpp>
@@ -51,7 +51,7 @@ TEST_F(ut_furnace, log_file) {
     auto log_file = "ut_furnace_" + miu::com::to_string(date) + ".log";
     std::filesystem::remove(log_file);
 
-    nlohmann::json json;
+    miu::com::json json;
     json["meta"]["category"] = "cate";
     json["meta"]["type"]     = "type";
     json["meta"]["name"]     = "ut_furnace";
@@ -82,7 +82,7 @@ TEST_F(ut_furnace, log_file) {
 }
 
 TEST_F(ut_furnace, log_term) {
-    nlohmann::json json;
+    miu::com::json json;
     json["meta"]["category"] = "cate";
     json["meta"]["type"]     = "type";
     json["meta"]["name"]     = "ut_furnace";
@@ -111,7 +111,7 @@ TEST_F(ut_furnace, log_term) {
 }
 
 TEST_F(ut_furnace, log_sys) {
-    nlohmann::json json;
+    miu::com::json json;
     json["meta"]["category"] = "cate";
     json["meta"]["type"]     = "type";
     json["meta"]["name"]     = "ut_furnace";
@@ -127,7 +127,7 @@ TEST_F(ut_furnace, log_sys) {
 }
 
 TEST_F(ut_furnace, invalid_log_type) {
-    nlohmann::json json;
+    miu::com::json json;
     json["meta"]["category"] = "cate";
     json["meta"]["type"]     = "type";
     json["meta"]["name"]     = "ut_furnace";
