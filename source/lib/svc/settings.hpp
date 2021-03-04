@@ -4,6 +4,7 @@
 #include <cfg/settings.hpp>
 #include <com/fatal_error.hpp>
 #include <filesystem>
+#include <fstream>
 #include <log/log.hpp>
 
 namespace miu::svc {
@@ -16,7 +17,7 @@ class settings {
         }
 
         std::ifstream ss { json_file };
-        auto json = nlohmann::json::parse(ss);
+        auto json = com::json::parse(ss);
 
         if (!json.contains("com")) {
             json["com"] = {};

@@ -5,7 +5,7 @@
 #include "source/lib/svc/settings.hpp"
 
 TEST(ut_settings, load) {
-    nlohmann::json json;
+    miu::com::json json;
     json["com"]["meta"]["category"] = "cate";
     json["com"]["meta"]["type"]     = "type";
     json["com"]["meta"]["name"]     = "name";
@@ -24,7 +24,7 @@ TEST(ut_settings, load) {
 }
 
 TEST(ut_settings, default) {
-    nlohmann::json json;
+    miu::com::json json;
     std::ofstream { "name.json" } << json;
 
     miu::svc::settings settings { "bin", "name.json" };
