@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cfg/settings.hpp>
-#include <job/job.hpp>
+#include <job/pool.hpp>
 
 namespace miu::svc {
 
@@ -16,7 +16,7 @@ class furnace {
   protected:
     template<typename... ARGS>
     auto add_task(ARGS&&... args) {
-        job::add(std::forward<ARGS>(args)...);
+        _pool.add(std::forward<ARGS>(args)...);
     }
 
   private:
@@ -25,6 +25,7 @@ class furnace {
 
   private:
     uint32_t _heartbeat { 0 };
+    job::pool _pool;
 };
 
 }    // namespace miu::svc
