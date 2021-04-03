@@ -22,6 +22,8 @@
 
 namespace miu::svc {
 
+extern std::string_view concrete_version();
+
 static auto cmd_kill() {
     std::raise(SIGTERM);
 }
@@ -60,7 +62,7 @@ void furnace::warmup(cfg::settings const& com, cfg::settings const& spec) {
     // 4. log
     init_log(com.required<cfg::settings>("log"));
 
-    log::debug(+"meta", meta::info());
+    log::debug(+"meta", meta::info(), +"VER", svc::concrete_version());
     log::debug(+"com VER", com::version());
     log::debug(+"log VER", log::version());
     log::debug(+"cfg VER", cfg::version());
@@ -70,7 +72,6 @@ void furnace::warmup(cfg::settings const& com, cfg::settings const& spec) {
     log::debug(+"cmd VER", cmd::version());
     log::debug(+"job VER", job::version());
     log::debug(+"svc VER", svc::version());
-    log::debug(+"time OFF", time::offset::get());
 
     // 5. specific
     ignite(spec);
@@ -110,6 +111,8 @@ void furnace::warmup(cfg::settings const& com, cfg::settings const& spec) {
     auto interval = com.optional<time::delta>("interval", time::delta { 5000 });
     cmd::reset(meta::name(), interval);
     log::debug(+"cmd SVR", cmd::svr_type(), cmd::interval());
+
+    log::debug(+"time OFF", time::offset::get());
 }
 
 void furnace::forge() {

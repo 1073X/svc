@@ -10,6 +10,12 @@
 #include "source/lib/svc/settings.hpp"
 #include "svc/svc.hpp"
 
+namespace miu::svc {
+// should be implemented in concrete service
+extern std::string_view concrete_version();
+extern std::string_view concrete_build_info();
+}    // namespace miu::svc
+
 using namespace miu;
 
 std::unique_ptr<svc::furnace> g_svc { svc::create() };
@@ -31,11 +37,11 @@ int32_t main(int32_t argc, const char* argv[]) try {
     cfg::cmd_source cmdsrc { argc, argv };
     cfg::settings cmdset { &cmdsrc };
     if (cmdset.optional<bool>("version", false)) {
-        std::cout << g_svc->version() << std::endl;
+        std::cout << svc::concrete_version() << std::endl;
 
     } else if (cmdset.optional<bool>("usage", false)) {
-        std::cout << g_svc->version() << std::endl;
-        std::cout << g_svc->build_info() << std::endl;
+        std::cout << svc::concrete_version() << std::endl;
+        std::cout << svc::concrete_build_info() << std::endl;
         std::cout << "\nUsage: " << cmdset.name() << " <path/to/json/config/file>" << std::endl;
         std::cout << "\t--version: show version" << std::endl;
         std::cout << "\t--usage: show this usage" << std::endl;

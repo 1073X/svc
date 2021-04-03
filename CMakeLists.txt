@@ -17,6 +17,6 @@ aux_source_directory("source/lib/main" _main_files)
 add_library(miu SHARED ${_main_files})
 target_link_libraries(miu libsvc ${_deps})
 
-add_bin(sample "source/bin/sample" miu)
+add_svc(sample "source/bin/sample" miu)
 
 
