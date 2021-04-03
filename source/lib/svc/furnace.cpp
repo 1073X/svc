@@ -119,7 +119,7 @@ void furnace::forge() {
     auto sig = job::signal::instance();
 
     log::debug(+"job BEG _main_ CORE", job::get_core(), +"LAG", cmd::interval());
-    job::start();
+    _pool.start();
 
     while (!sig->value()) {
         _heartbeat++;
@@ -135,13 +135,13 @@ void furnace::forge() {
 }
 
 void furnace::finish() {
+    _pool.stop();
+
     asp::dump();
+
     asp::reset();
-
-    job::stop();
-
+    _pool.clear();
     cmd::reset();
-
     quench();
 }
 
