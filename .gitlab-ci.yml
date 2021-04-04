@@ -42,11 +42,11 @@ delivery:
 
         - mkdir -p $DBG_PATH
         - cp -fv debug/libsvc.a $DBG_PATH
-        - cp -fv debug/libsvcmain.a $DBG_PATH
+        - cp -fv debug/libmiu.so $DBG_PATH
 
         - mkdir -p $REL_PATH
         - cp -fv release/libsvc.a $REL_PATH
-        - cp -fv release/libsvcmain.a $REL_PATH
+        - cp -fv release/libmiu.so $REL_PATH
 
         - mkdir -p $UT_PATH
         - cp -fv release/ut_svc $UT_PATH
