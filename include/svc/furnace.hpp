@@ -13,7 +13,6 @@ class furnace {
     void forge();
     void finish();
 
-  protected:
     template<typename... ARGS>
     auto add_task(ARGS&&... args) {
         _pool.add(std::forward<ARGS>(args)...);
