@@ -3,7 +3,6 @@ project("${CMAKE_PROJECT_NAME}")
 include("$ENV{TOOLCHAIN_PATH}/CMakeLists.txt.in")
 
 add_lib(libsvc "source/lib/svc")
-add_lib(libsvcmain "source/lib/main")
 
 SET(_deps
     ${LIB_JOB} ${LIB_CMD} ${LIB_ASP}
@@ -12,13 +11,12 @@ SET(_deps
     ${LIB_COM}
 )
 
-add_svc(sample "source/bin/sample" libsvcmain libsvc ${_deps})
-
 add_unittest(libsvc ${_deps})
 
-#aux_source_directory("source/lib/main" _main_files)
-#add_library(miu SHARED ${_main_files})
-#target_link_libraries(miu libsvc ${_deps})
+aux_source_directory("source/lib/main" _main_files)
+add_library(miu SHARED ${_main_files})
+target_link_libraries(miu libsvc ${_deps})
 
+add_svc(sample "source/bin/sample" miu)
 
 
